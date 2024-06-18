@@ -58,7 +58,8 @@ docker build -t myapp:1.0 .
 6 pasos
 
 ### Inspeccionar la imagen creada
-# COMPLETAR CON UNA CAPTURA
+![image](https://github.com/Milton599/2024A-ISWD633-Practica4/assets/94476149/a53d2fe0-c2b7-4303-a123-80bc66f0658d)
+
 
 **Modificar el archivo index.html para incluir su nombre**
 **¿Cuántos pasos se han ejecutado? ¿Observa algo diferente en la creación de la imagen**
