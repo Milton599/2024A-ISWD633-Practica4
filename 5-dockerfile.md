@@ -51,16 +51,22 @@ La opción -t se utiliza para etiquetar la imagen que se está construyendo con 
  
 ### Ejecutar el archivo Dockerfile y construir una imagen en la versión 1.0
 ```
-
+docker build -t myapp:1.0 .
 ```
 
 **¿Cuántos pasos se han ejecutado?**
+6 pasos
 
 ### Inspeccionar la imagen creada
 # COMPLETAR CON UNA CAPTURA
 
 **Modificar el archivo index.html para incluir su nombre**
 **¿Cuántos pasos se han ejecutado? ¿Observa algo diferente en la creación de la imagen**
+Después de modificar el archivo index.html, si se ejecuta nuevamente el comando de construcción:
+```
+docker build -t myapp:1.0 .
+```
+Se observa que Docker reutiliza las capas de caché para las instrucciones que no han cambiado, pero ejecutará nuevamente el paso (COPY ./web /var/www/html), ya que el contenido de ./web ha cambiado. Por lo tanto, aunque sigue habiendo 6 pasos, solo se volverán a ejecutar los pasos necesarios, utilizando la caché para el resto.
 
 ## Mecanismo de caché
 Docker usa un mecanismo de caché cuando crea imágenes para acelerar el proceso de construcción y evitar la repetición de pasos que no han cambiado. Cada instrucción en un Dockerfile crea una capa en la imagen final. Docker intenta reutilizar las capas de una construcción anterior si no han cambiado, lo que reduce significativamente el tiempo de construcción.
@@ -72,27 +78,30 @@ Docker usa un mecanismo de caché cuando crea imágenes para acelerar el proceso
 
 ### Crear un contenedor a partir de las imagen creada, mapear todos los puertos
 ```
-
+docker run -d -p 80:80 myapp:1.0
 ```
 
 ### ¿Con que puerto host se está realizando el mapeo?
-# COMPLETAR CON LA RESPUESTA
+El contenedor está mapeando el puerto 80 del contenedor al puerto 80 del host.
 
 **¿Qué es una imagen huérfana?**
-# COMPLETAR CON LA RESPUESTA
+Una imagen huérfana es una imagen de Docker que no tiene ningún contenedor asociado. Estas imágenes pueden ocupar espacio en disco innecesariamente y pueden ser eliminadas para liberar espacio.
 
 ### Identificar imágenes huérfanas
 ```
+docker images -f "dangling=true"
 
 ```
 
 ### Listar los IDS de las imágenes huérfanas
 ```
+docker images -f "dangling=true" -q
 
 ```
 
 ### Eliminar imágenes huérfanas
 ```
+docker rmi $(docker images -f "dangling=true" -q)
 
 ```
 
